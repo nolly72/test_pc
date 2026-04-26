@@ -11,11 +11,13 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 2. УМНЫЙ ПРЕЛОАДЕР ---
-    const loader = document.getElementById('loader');
-    const loaderBar = document.getElementById('loader-bar');
-    const loaderPercent = document.getElementById('loader-percent');
-    let width = 0;
+    //<!-- НОВЫЙ КИБЕР-ПРЕЛОАДЕР -->//
+<div id="loader" class="loader">
+    <div class="loader-inner">
+        <div class="loader-logo">НОЛЬ ПК</div>
+        <div class="loader-line"></div>
+    </div>
+</div>
 
     // Имитация загрузки ресурсов
     const loadingInterval = setInterval(() => {
