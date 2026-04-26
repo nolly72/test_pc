@@ -1,44 +1,21 @@
 /**
  * НОЛЬ ПК — Официальный скрипт управления сайтом
- * Функционал: Прелоадер, Частицы, Карта мест, EmailJS
+ * Функционал: Частицы, Карта мест, EmailJS, AOS
  */
 
 // 1. ИНИЦИАЛИЗАЦИЯ EMAILJS
-// Вставь сюда свой Public Key из личного кабинета EmailJS
 (function() {
     emailjs.init("uMomqe3GHuHo1r5KO"); 
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
 
-
-
-    // Имитация загрузки ресурсов
-    const loadingInterval = setInterval(() => {
-        if (width >= 100) {
-            clearInterval(loadingInterval);
-            // Плавное исчезновение
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }, 500);
-        } else {
-            // Случайный шаг для естественности
-            width += Math.floor(Math.random() * 10) + 1;
-            if (width > 100) width = 100;
-            loaderBar.style.width = width + '%';
-            loaderPercent.innerText = width + '%';
-        }
-    }, 150);
-
-
-    // --- 3. АНИМАЦИЯ ЧАСТИЦ (HERO CANVAS) ---
+    // --- 2. АНИМАЦИЯ ЧАСТИЦ (HERO CANVAS) ---
     const canvas = document.getElementById('hero-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
-        
-        // Подгонка размера
+
         function setCanvasSize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -46,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', setCanvasSize);
         setCanvasSize();
 
-        // Класс частицы
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
@@ -59,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                // Возврат при выходе за границы
                 if (this.x > canvas.width) this.x = 0;
                 if (this.x < 0) this.x = canvas.width;
                 if (this.y > canvas.height) this.y = 0;
@@ -75,8 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function initParticles() {
             particlesArray = [];
-            const numberOfParticles = 80;
-            for (let i = 0; i < numberOfParticles; i++) {
+            for (let i = 0; i < 80; i++) {
                 particlesArray.push(new Particle());
             }
         }
@@ -94,62 +68,51 @@ document.addEventListener('DOMContentLoaded', () => {
         animateParticles();
     }
 
-
-    // --- 4. ГЕНЕРАЦИЯ КАРТЫ МЕСТ (30 ПК) ---
+    // --- 3. ГЕНЕРАЦИЯ КАРТЫ МЕСТ (30 ПК) ---
     const pcGrid = document.getElementById('pc-grid-container');
     if (pcGrid) {
         for (let i = 1; i <= 30; i++) {
             const slot = document.createElement('div');
             slot.className = 'pc-slot';
             
-            // Логика: рандомно занимаем места для демонстрации
-            // В реальности здесь может быть запрос к API клуба
-            const isBusy = Math.random() < 0.2; 
-            if (isBusy) slot.classList.add('busy');
-
+            // Рандомная занятость для красоты
+            if (Math.random() < 0.2) slot.classList.add('busy');
+            
             slot.innerHTML = `<span>${i}</span>`;
             
-            // Клик по месту
             slot.addEventListener('click', () => {
                 if (!slot.classList.contains('busy')) {
-                    // Выбираем соответствующую зону в форме ниже
                     const zoneSelect = document.querySelector('select[name="zone"]');
-                    if (i > 20) {
-                        zoneSelect.value = 'VIP';
-                    } else {
-                        zoneSelect.value = 'Standard';
+                    if (zoneSelect) {
+                        zoneSelect.value = i > 25 ? 'VIP' : 'Standard';
                     }
-                    // Плавный скролл к форме
-                    document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
-                    // Визуальный эффект выбора
-                    console.log(`Выбрано место №${i}`);
+                    const bookingFormSection = document.getElementById('booking-form');
+                    if (bookingFormSection) {
+                        bookingFormSection.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
             });
-
             pcGrid.appendChild(slot);
         }
     }
 
-
-    // --- 5. ОБРАБОТКА ФОРМЫ БРОНИРОВАНИЯ ---
+    // --- 4. ОБРАБОТКА ФОРМЫ БРОНИРОВАНИЯ ---
     const bookingForm = document.getElementById('contact-form');
-    const submitBtn = document.getElementById('submit-btn');
+    // Находим кнопку внутри формы, чтобы не зависеть от ID
+    const submitBtn = bookingForm ? bookingForm.querySelector('button[type="submit"]') : null;
 
-    if (bookingForm) {
+    if (bookingForm && submitBtn) {
         bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Индикация загрузки на кнопке
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<span class="btn-text">ОТПРАВКА...</span>';
             submitBtn.style.opacity = '0.7';
             submitBtn.disabled = true;
 
-            // Сбор данных и отправка через EmailJS
-            // Замени 'YOUR_SERVICE_ID' и 'YOUR_TEMPLATE_ID' на свои
             emailjs.sendForm('service_ernscfc', 'template_vakrk4p', this)
                 .then(() => {
-                    alert('ОТЛИЧНО! Твоя заявка в NOLLY_PC принята. Ожидай звонка.');
+                    alert('ОТЛИЧНО! Твоя заявка в НОЛЬ ПК принята. Ожидай звонка.');
                     bookingForm.reset();
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.style.opacity = '1';
@@ -164,13 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. ИНИЦИАЛИЗАЦИЯ AOS (Анимация скролла) ---
+    // --- 5. ИНИЦИАЛИЗАЦИЯ AOS ---
     if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
+        AOS.init({ duration: 1000, once: true, offset: 100 });
     }
-
 });
