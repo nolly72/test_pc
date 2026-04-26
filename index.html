@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- Базовые мета-теги для SEO и корректного отображения -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>NOLLY_PC — Компьютерный клуб нового поколения</title>
-    <meta name="description" content="Лучший компьютерный клуб Ноль ПК: RTX 4070 Ti, мониторы 240Hz, PS5 зона. Забронируй место онлайн!">
+    <title>НОЛЬ ПК — Киберспортивное пространство будущего</title>
+    <meta name="description" content="Компьютерный клуб НОЛЬ ПК: RTX 4070 Ti, мониторы 240Hz, топовая периферия и зона PS5.">
 
-    <!-- Шрифты -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Подключение современных шрифтов -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Стили для анимации при скролле -->
+    <!-- Библиотека анимации при скролле -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
-    <!-- Подключение твоего внешнего CSS файла -->
+    <!-- Подключение внешнего CSS -->
     <link rel="stylesheet" href="style.css">
 
     <!-- Подключение EmailJS SDK -->
@@ -25,137 +24,128 @@
 </head>
 <body>
 
-    <!-- 1. ГЛАВНЫЙ ЭКРАН (БЕЗ ПРЕЛОАДЕРА) -->
+    <!-- ГЛАВНЫЙ ЭКРАН (HERO) -->
     <header class="hero">
-        <!-- Холст для анимации частиц -->
         <canvas id="hero-canvas"></canvas>
         
-        <div class="hero-inner">
+        <div class="container hero-container">
             <nav class="top-nav" data-aos="fade-down">
-                <div class="logo-small">НОЛЬ ПК</div>
-                <div class="nav-links">
-                    <a href="#about">О нас</a>
-                    <a href="#map">Карта</a>
-                    <a href="#pricing">Цены</a>
+                <div class="logo">НОЛЬ ПК</div>
+                <div class="nav-menu">
+                    <a href="#about">О НАС</a>
+                    <a href="#map">КАРТА</a>
+                    <a href="#pricing">ТАРИФЫ</a>
+                    <a href="#booking">БРОНЬ</a>
                 </div>
             </nav>
 
             <div class="hero-content">
-                <h1 class="main-title" data-aos="zoom-in" data-aos-duration="1500">
-                    НОЛЬ<br><span class="gradient-text">ПК</span>
+                <h1 class="hero-title" data-aos="zoom-in" data-aos-duration="1200">
+                    НОЛЬ<br><span class="accent-text">ПК</span>
                 </h1>
-                <p class="main-subtitle" data-aos="fade-up" data-aos-delay="400">
-                    ОБНУЛИ РЕАЛЬНОСТЬ • ЗАРЯДИСЬ НА МАКСИМУМ
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="300">
+                    ТОЧКА ОБНУЛЕНИЯ ТВОИХ ВОЗМОЖНОСТЕЙ
                 </p>
-                <div class="hero-actions" data-aos="fade-up" data-aos-delay="600">
-                    <a href="#booking-form" class="btn-primary">ЗАБРОНИРОВАТЬ МЕСТО</a>
-                    <a href="#pricing" class="btn-outline">СМОТРЕТЬ ПРАЙС</a>
+                <div class="hero-btns" data-aos="fade-up" data-aos-delay="500">
+                    <a href="#booking" class="btn btn-main">ЗАБРОНИРОВАТЬ</a>
+                    <a href="#map" class="btn btn-outline">СМОТРЕТЬ ЗАЛ</a>
                 </div>
             </div>
         </div>
 
-        <div class="scroll-down-indicator">
-            <span class="mouse">
-                <span class="wheel"></span>
-            </span>
-            <div class="arrow-down"></div>
+        <div class="scroll-down">
+            <div class="mouse"></div>
+            <p>SCROLL</p>
         </div>
     </header>
 
-    <!-- Далее идут остальные секции (About, Map, Pricing...) -->
-
-    <!-- 3. ФИЛОСОФИЯ И МИССИЯ -->
-    <section id="about" class="philosophy">
+    <!-- О НАС / ФИЛОСОФИЯ -->
+    <section id="about" class="section about-section">
         <div class="container">
-            <div class="phil-wrapper">
-                <div class="phil-label" data-aos="fade-right">/ 01 МИССИЯ</div>
-                <div class="phil-main-content" data-aos="fade-up">
-                    <h2 class="heavy-text">МЫ СОЗДАЛИ <span class="accent">ЦИФРОВОЙ ВАКУУМ</span></h2>
-                    <p class="descr-main">
-                        В «НОЛЬ ПК» НЕТ МЕСТА ДЛЯ СЛУЧАЙНЫХ ДЕТАЛЕЙ. МЫ УБРАЛИ ВИЗУАЛЬНЫЙ ШУМ И ТЕХНИЧЕСКИЕ ЗАДЕРЖКИ, ЧТОБЫ ТЫ МОГ СОСРЕДОТОЧИТЬСЯ НА ГЛАВНОМ — НА ТВОЕМ СКИЛЛЕ. ЭТО ТОЧКА ВХОДА В ИГРУ, ГДЕ ЖЕЛЕЗО И РАЗУМ СТАНОВЯТСЯ ОДНИМ ЦЕЛЫМ.
+            <div class="section-tag" data-aos="fade-right">/ 01 ФИЛОСОФИЯ</div>
+            <div class="about-grid">
+                <div class="about-text" data-aos="fade-up">
+                    <h2 class="heavy-title">МЫ УБРАЛИ <span class="outline-text">ЛИШНЕЕ</span>.<br> ОСТАВИЛИ <span class="glow-text">ГЛАВНОЕ</span>.</h2>
+                    <p class="main-descr">
+                        В «НОЛЬ ПК» НЕТ ВИЗУАЛЬНОГО ШУМА. МЫ СОЗДАЛИ ВАКУУМ, ГДЕ ТЫ МОЖЕШЬ ПОЛНОСТЬЮ СФОКУСИРОВАТЬСЯ НА ИГРЕ. ТОПОВОЕ ЖЕЛЕЗО, ЭРГОНОМИКА И АТМОСФЕРА ПОЛНОГО ПОГРУЖЕНИЯ.
                     </p>
-                    <div class="phil-stats">
-                        <div class="stat-box">
-                            <span class="stat-num">30</span>
-                            <span class="stat-desc">Игровых мест</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-num">2</span>
-                            <span class="stat-desc">Зоны PS5</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-num">24/7</span>
-                            <span class="stat-desc">Режим работы</span>
-                        </div>
+                </div>
+                <div class="about-stats" data-aos="fade-left">
+                    <div class="stat-card">
+                        <span class="stat-val">30</span>
+                        <span class="stat-label">МОЩНЫХ ПК</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-val">2</span>
+                        <span class="stat-label">ЗОНЫ PS5</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-val">24/7</span>
+                        <span class="stat-label">РАБОТАЕМ ВСЕГДА</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. ХАРАКТЕРИСТИКИ ЖЕЛЕЗА -->
-    <section class="specs-section">
+    <!-- ТЕХНИЧЕСКИЕ ХАРАКТЕРИСТИКИ -->
+    <section class="section specs-section">
         <div class="container">
-            <div class="specs-header" data-aos="fade-right">
-                <h2 class="section-h">НАШЕ ЖЕЛЕЗО</h2>
-            </div>
+            <h2 class="section-title" data-aos="fade-up">НАШЕ ВООРУЖЕНИЕ</h2>
             <div class="specs-grid">
-                <div class="spec-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="spec-card" data-aos="flip-left">
                     <div class="spec-icon">⚡</div>
-                    <h3>ПРОЦЕССОРЫ</h3>
-                    <p>Intel Core i7-13700KF — максимальная частота для киберспорта.</p>
+                    <h3>RTX 4070 Ti</h3>
+                    <p>Ультра-настройки и стабильный FPS во всех новинках.</p>
                 </div>
-                <div class="spec-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="spec-icon">🎮</div>
-                    <h3>ВИДЕОКАРТЫ</h3>
-                    <p>NVIDIA RTX 4070 Ti — ультра-настройки в любом разрешении.</p>
-                </div>
-                <div class="spec-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="spec-card" data-aos="flip-left" data-aos-delay="100">
                     <div class="spec-icon">🖥️</div>
-                    <h3>МОНИТОРЫ</h3>
-                    <p>ZOWIE XL2546K (240Hz) — стандарт мировых турниров.</p>
+                    <h3>240 HZ</h3>
+                    <p>Киберспортивные мониторы ZOWIE для идеальной плавности.</p>
                 </div>
-                <div class="spec-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="spec-icon">🎧</div>
-                    <h3>ПЕРИФЕРИЯ</h3>
-                    <p>Logitech G Pro X / HyperX — точность в каждом движении.</p>
+                <div class="spec-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="spec-icon">🖱️</div>
+                    <h3>LOGITECH G</h3>
+                    <p>Профессиональная периферия для идеального контроля.</p>
+                </div>
+                <div class="spec-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="spec-icon">💺</div>
+                    <h3>DXRACER</h3>
+                    <p>Комфорт на протяжении многочасовых сессий.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 5. КАРТА ЗАЛА (30 ПК + 2 PS) -->
-    <section id="map" class="map-section">
+    <!-- ИНТЕРАКТИВНАЯ КАРТА ЗАЛА -->
+    <section id="map" class="section map-section">
         <div class="container">
-            <h2 class="section-h" data-aos="fade-down">ВЫБЕРИ СВОЮ ТОЧКУ ВХОДА</h2>
+            <h2 class="section-title" data-aos="fade-down">КАРТА ЗАЛА</h2>
+            <p class="section-subtitle">ВЫБЕРИ СВОЕ МЕСТО В СИСТЕМЕ</p>
             
-            <div class="map-container-main" data-aos="zoom-in">
-                <div class="map-info-bar">
-                    <div class="leg-group">
-                        <div class="leg-item"><span class="sq free"></span> СВОБОДНО</div>
-                        <div class="leg-item"><span class="sq busy"></span> ЗАНЯТО</div>
-                        <div class="leg-item"><span class="sq ps"></span> PS5 ZONE</div>
-                    </div>
+            <div class="map-wrapper" data-aos="zoom-in">
+                <div class="map-legend">
+                    <div class="legend-item"><span class="marker free"></span> СВОБОДНО</div>
+                    <div class="legend-item"><span class="marker busy"></span> ЗАНЯТО</div>
+                    <div class="legend-item"><span class="marker ps"></span> PS5 ZONE</div>
                 </div>
 
-                <!-- Основная сетка ПК -->
                 <div class="pc-layout">
-                    <div class="grid-header">MAIN ZONE (30 ПК)</div>
-                    <div class="pc-grid" id="pc-grid-container">
-                        <!-- Места будут сгенерированы через JavaScript -->
+                    <div class="layout-label">ОСНОВНОЙ ЗАЛ</div>
+                    <div id="pc-grid" class="pc-grid">
+                        <!-- Генерация 30 ПК через JS -->
                     </div>
                 </div>
 
-                <!-- Зона PlayStation -->
                 <div class="ps-layout">
-                    <div class="grid-header">LOUNGE ZONE (PS5)</div>
-                    <div class="ps-row">
-                        <div class="ps-item clickable" id="ps-1">
-                            <div class="ps-icon">🎮</div>
+                    <div class="layout-label">LOUNGE ZONE</div>
+                    <div class="ps-grid">
+                        <div class="ps-slot clickable" data-id="PS5-01">
+                            <span class="ps-icon">🎮</span>
                             <span>PS5 - 01</span>
                         </div>
-                        <div class="ps-item clickable" id="ps-2">
-                            <div class="ps-icon">🎮</div>
+                        <div class="ps-slot clickable" data-id="PS5-02">
+                            <span class="ps-icon">🎮</span>
                             <span>PS5 - 02</span>
                         </div>
                     </div>
@@ -164,128 +154,109 @@
         </div>
     </section>
 
-    <!-- 6. ТАРИФЫ (ПРАЙС-ЛИСТ) -->
-    <section id="pricing" class="pricing-section">
+    <!-- ТАРИФЫ -->
+    <section id="pricing" class="section pricing-section">
         <div class="container">
-            <h2 class="section-h" data-aos="fade-right">ТАРИФЫ</h2>
-            <div class="price-grid">
+            <h2 class="section-title" data-aos="fade-right">ТАРИФЫ</h2>
+            <div class="pricing-grid">
                 <!-- Standard -->
-                <div class="p-card" data-aos="fade-up">
-                    <div class="p-tag">ECONOMY</div>
-                    <h3 class="p-title">STANDARD</h3>
-                    <div class="p-price">120 ₽ <small>/час</small></div>
+                <div class="price-card" data-aos="fade-up">
+                    <div class="p-header">STANDARD</div>
+                    <div class="p-amount">120 ₽ <small>/час</small></div>
                     <ul class="p-list">
                         <li>RTX 3060 / 144Hz</li>
-                        <li>Кресла Cougar Armor</li>
+                        <li>Кресла Cougar</li>
                         <li>Периферия HyperX</li>
-                        <li>Минимально: 1 час</li>
+                        <li>Ночь: 600 ₽</li>
                     </ul>
-                    <a href="#booking-form" class="btn-card">ВЫБРАТЬ</a>
+                    <a href="#booking" class="btn btn-card">ВЫБРАТЬ</a>
                 </div>
-
                 <!-- VIP -->
-                <div class="p-card featured" data-aos="fade-up" data-aos-delay="200">
-                    <div class="p-tag accent-bg">MOST POPULAR</div>
-                    <h3 class="p-title">VIP ZONE</h3>
-                    <div class="p-price">200 ₽ <small>/час</small></div>
+                <div class="price-card featured" data-aos="fade-up" data-aos-delay="200">
+                    <div class="p-badge">ЛУЧШИЙ ВЫБОР</div>
+                    <div class="p-header">VIP ZONE</div>
+                    <div class="p-amount">200 ₽ <small>/час</small></div>
                     <ul class="p-list">
                         <li>RTX 4070 Ti / 240Hz</li>
                         <li>Кресла DXRacer Elite</li>
-                        <li>Logitech G Pro Wireless</li>
-                        <li>BOOTCAMP 5x5 доступен</li>
+                        <li>Logitech G Pro Series</li>
+                        <li>Ночь: 900 ₽</li>
                     </ul>
-                    <a href="#booking-form" class="btn-card-active">ВЫБРАТЬ</a>
+                    <a href="#booking" class="btn btn-main">ВЫБРАТЬ</a>
                 </div>
-
                 <!-- PS5 -->
-                <div class="p-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="p-tag">RELAX</div>
-                    <h3 class="p-title">PS5 LOUNGE</h3>
-                    <div class="p-price">250 ₽ <small>/час</small></div>
+                <div class="price-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="p-header">PS5 LOUNGE</div>
+                    <div class="p-amount">250 ₽ <small>/час</small></div>
                     <ul class="p-list">
                         <li>4K OLED 65" TV</li>
                         <li>DualSense Edge</li>
                         <li>Огромные диваны</li>
-                        <li>Второй игрок — БЕСПЛАТНО</li>
+                        <li>Второй игрок бесплатно</li>
                     </ul>
-                    <a href="#booking-form" class="btn-card">ВЫБРАТЬ</a>
+                    <a href="#booking" class="btn btn-card">ВЫБРАТЬ</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 7. ФОРМА БРОНИРОВАНИЯ -->
-    <section id="booking-form" class="booking-section">
+    <!-- БРОНИРОВАНИЕ -->
+    <section id="booking" class="section booking-section">
         <div class="container">
-            <div class="booking-flex">
-                <div class="booking-text" data-aos="fade-right">
-                    <h2 class="heavy-text">ЗАБРОНИРУЙ<br><span class="accent">МЕСТО</span></h2>
-                    <p>Оставь свои данные, и наш администратор свяжется с тобой в течение 5 минут для подтверждения брони.</p>
-                    <div class="contact-info">
-                        <p>📍 Москва, ул. Примерная, 0</p>
+            <div class="booking-container">
+                <div class="booking-info" data-aos="fade-right">
+                    <h2 class="heavy-title">ЗАБРОНИРУЙ<br><span class="glow-text">МЕСТО</span></h2>
+                    <p>ОСТАВЬ ЗАЯВКУ, И МЫ ЗАКРЕПИМ ЖЕЛЕЗО ЗА ТОБОЙ. ПОДТВЕРЖДЕНИЕ ПРИДЕТ В ТЕЧЕНИЕ 5 МИНУТ.</p>
+                    <div class="contacts-footer">
+                        <p>📍 МОСКВА, УЛ. КИБЕРСПОРТИВНАЯ, 0</p>
                         <p>📞 +7 (999) 000-00-00</p>
                     </div>
                 </div>
-                
-                <div class="booking-form-container" data-aos="fade-left">
-                    <form id="contact-form" class="modern-form">
-                        <div class="input-group">
-                            <label>ВАШЕ ИМЯ</label>
-                            <input type="text" name="user_name" placeholder="Иван" required class="modern-input">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label>ТЕЛЕФОН</label>
-                            <input type="tel" name="user_phone" placeholder="+7 (___) ___-__-__" required class="modern-input">
-                        </div>
 
-                        <div class="input-group">
-                            <label>ВЫБЕРИТЕ ЗОНУ</label>
-                            <select name="zone" class="modern-input">
+                <div class="booking-form-wrap" data-aos="fade-left">
+                    <form id="order-form" class="modern-form">
+                        <div class="form-group">
+                            <label>ВАШЕ ИМЯ</label>
+                            <input type="text" name="user_name" placeholder="ИВАН" required>
+                        </div>
+                        <div class="form-group">
+                            <label>НОМЕР ТЕЛЕФОНА</label>
+                            <input type="tel" name="user_phone" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ВЫБЕРИТЕ ТАРИФ</label>
+                            <select name="user_tariff">
                                 <option value="Standard">STANDARD ZONE</option>
                                 <option value="VIP">VIP ZONE</option>
                                 <option value="PS5">PS5 LOUNGE</option>
                             </select>
                         </div>
-
-                        <button type="submit" id="submit-btn" class="btn-submit">
-                            <span class="btn-text">ОТПРАВИТЬ ЗАЯВКУ</span>
-                        </button>
+                        <button type="submit" id="submit-btn" class="btn btn-main full-width">ОТПРАВИТЬ ЗАЯВКУ</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 8. ПОДВАЛ (FOOTER) -->
+    <!-- ФУТЕР -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-top">
-                <div class="f-brand">
-                    <div class="f-logo">НОЛЬ ПК</div>
-                    <p>Лучшая игровая точка твоего города.</p>
-                </div>
-                <div class="f-nav">
-                    <h4>НАВИГАЦИЯ</h4>
-                    <a href="#about">О нас</a>
-                    <a href="#map">Карта мест</a>
-                    <a href="#pricing">Тарифы</a>
-                </div>
-                <div class="f-social">
-                    <h4>СОЦСЕТИ</h4>
-                    <a href="#">VKONTAKTE</a>
-                    <a href="#">TELEGRAM</a>
-                    <a href="#">INSTAGRAM</a>
+            <div class="footer-wrap">
+                <div class="footer-logo">НОЛЬ ПК</div>
+                <div class="footer-socials">
+                    <a href="#">VK</a>
+                    <a href="#">TG</a>
+                    <a href="#">INST</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="copy">© 2024 НОЛЬ ПК. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
-                <p class="dev">DESIGNED FOR GAMERS</p>
+                <p>© 2024 НОЛЬ ПК. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
+                <p>DESIGNED FOR FUTURE</p>
             </div>
         </div>
     </footer>
 
-    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ (Библиотеки + твой script.js) -->
+    <!-- СКРИПТЫ -->
     <script src="https://cloudflare.com"></script>
     <script src="script.js"></script>
 </body>

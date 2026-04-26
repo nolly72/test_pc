@@ -1,22 +1,56 @@
 /**
  * НОЛЬ ПК — Официальный скрипт управления сайтом
- * Функционал: Частицы, Карта мест, EmailJS, AOS
+ * Функционал: Частицы, Карта мест, Бронирование через EmailJS
  */
 
 // 1. ИНИЦИАЛИЗАЦИЯ EMAILJS
 (function() {
-    // Твой Public Key
+    // Используем твой Public Key
     emailjs.init("uMomqe3GHuHo1r5KO"); 
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 2. АНИМАЦИЯ ЧАСТИЦ (HERO CANVAS) ---
+    // --- 2. ГЕНЕРАЦИЯ КАРТЫ МЕСТ (30 ПК) ---
+    const pcGrid = document.getElementById('pc-grid');
+    if (pcGrid) {
+        for (let i = 1; i <= 30; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'pc-slot';
+            
+            // Имитация занятых мест (каждое 5-е место занято)
+            if (i % 5 === 0) {
+                slot.classList.add('busy');
+            }
+
+            slot.innerHTML = `<span>${i}</span>`;
+            
+            // Логика выбора места
+            slot.addEventListener('click', () => {
+                if (!slot.classList.contains('busy')) {
+                    // Автоматический выбор тарифа в зависимости от номера ПК
+                    const tariffSelect = document.querySelector('select[name="user_tariff"]');
+                    if (tariffSelect) {
+                        // Предположим, ПК с 21 по 30 — это VIP
+                        tariffSelect.value = i > 20 ? 'VIP' : 'Standard';
+                    }
+                    
+                    // Плавный скролл к форме бронирования
+                    document.getElementById('booking').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                }
+            });
+            pcGrid.appendChild(slot);
+        }
+    }
+
+    // --- 3. АНИМАЦИЯ ЧАСТИЦ (HERO CANVAS) ---
     const canvas = document.getElementById('hero-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
-
+        
         function setCanvasSize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -28,10 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.color = 'rgba(0, 242, 255, 0.5)';
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
             }
             update() {
                 this.x += this.speedX;
@@ -42,99 +75,69 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = this.color;
+                ctx.fillStyle = 'rgba(0, 242, 255, 0.4)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function initParticles() {
+        function init() {
             particlesArray = [];
-            for (let i = 0; i < 80; i++) {
+            for (let i = 0; i < 100; i++) {
                 particlesArray.push(new Particle());
             }
         }
 
-        function animateParticles() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-    }
-
-    // --- 3. ГЕНЕРАЦИЯ КАРТЫ МЕСТ (30 ПК) ---
-    const pcGrid = document.getElementById('pc-grid-container');
-    if (pcGrid) {
-        for (let i = 1; i <= 30; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'pc-slot';
-            
-            // Рандомная занятость мест
-            if (Math.random() < 0.2) slot.classList.add('busy');
-            
-            slot.innerHTML = `<span>${i}</span>`;
-            
-            slot.addEventListener('click', () => {
-                if (!slot.classList.contains('busy')) {
-                    const zoneSelect = document.querySelector('select[name="zone"]');
-                    if (zoneSelect) {
-                        zoneSelect.value = i > 25 ? 'VIP' : 'Standard';
-                    }
-                    const bookingFormSection = document.getElementById('booking-form');
-                    if (bookingFormSection) {
-                        bookingFormSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
+            particlesArray.forEach(p => {
+                p.update();
+                p.draw();
             });
-            pcGrid.appendChild(slot);
+            requestAnimationFrame(animate);
         }
+
+        init();
+        animate();
     }
 
-    // --- 4. ОБРАБОТКА ФОРМЫ БРОНИРОВАНИЯ ---
-    const bookingForm = document.getElementById('contact-form');
-    // Поиск кнопки отправки внутри формы
-    const submitBtn = bookingForm ? bookingForm.querySelector('button[type="submit"]') : null;
+    // --- 4. ОБРАБОТКА ФОРМЫ (ОТПРАВКА НА EMAIL) ---
+    const orderForm = document.getElementById('order-form');
+    const submitBtn = document.getElementById('submit-btn');
 
-    if (bookingForm && submitBtn) {
-        bookingForm.addEventListener('submit', function(e) {
+    if (orderForm) {
+        orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span class="btn-text">ОТПРАВКА...</span>';
-            submitBtn.style.opacity = '0.7';
+            // Визуальная индикация отправки
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "ОТПРАВКА...";
             submitBtn.disabled = true;
 
-            // Твои ID Service и Template
+            // Отправка формы через EmailJS
+            // 'service_ernscfc' и 'template_vakrk4p' — твои актуальные ID
             emailjs.sendForm('service_ernscfc', 'template_vakrk4p', this)
                 .then(() => {
-                    alert('УСПЕШНО! Заявка отправлена.');
-                    bookingForm.reset();
-                    submitBtn.innerHTML = originalBtnText;
-                    submitBtn.style.opacity = '1';
+                    alert('ОТЛИЧНО! ЗАЯВКА ПРИНЯТА. МЫ СКОРО СВЯЖЕМСЯ С ТОБОЙ.');
+                    orderForm.reset();
+                    submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
                 }, (error) => {
                     console.error('Ошибка:', error);
-                    alert('Ошибка при отправке. Попробуйте позже.');
-                    submitBtn.innerHTML = originalBtnText;
-                    submitBtn.style.opacity = '1';
+                    alert('ОШИБКА ОТПРАВКИ. ПОПРОБУЙТЕ ЕЩЕ РАЗ.');
+                    submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
                 });
         });
     }
 
-    // --- 5. ИНИЦИАЛИЗАЦИЯ AOS (Анимации при скролле) ---
+    // --- 5. ИНИЦИАЛИЗАЦИЯ AOS ---
     if (typeof AOS !== 'undefined') {
-        AOS.init({ 
-            duration: 1000, 
-            once: true, 
-            offset: 100 
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
         });
     }
 });
