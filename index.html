@@ -9,10 +9,10 @@
     <title>NOLLY_PC — Компьютерный клуб нового поколения</title>
     <meta name="description" content="Лучший компьютерный клуб Ноль ПК: RTX 4070 Ti, мониторы 240Hz, PS5 зона. Забронируй место онлайн!">
 
-    <!-- Шрифты: Syncopate для футуристичных заголовков и Inter для жирного читаемого текста -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- Стили для анимации при скролле -->
     <link rel="stylesheet" href="https://cloudflare.com">
@@ -20,25 +20,14 @@
     <!-- Подключение твоего внешнего CSS файла -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Подключение EmailJS SDK для работы формы бронирования -->
+    <!-- Подключение EmailJS SDK -->
     <script type="text/javascript" src="https://jsdelivr.net"></script>
 </head>
 <body>
 
-    <!-- 1. ПРЕЛОАДЕР (Заставка при входе) -->
-    <div id="loader" class="loader">
-        <div class="loader-content-wrapper">
-            <div class="loader-logo">НОЛЬ ПК</div>
-            <div class="loader-bar-container">
-                <div id="loader-bar" class="loader-bar"></div>
-            </div>
-            <div id="loader-percent" class="loader-percent">0%</div>
-        </div>
-    </div>
-
-    <!-- 2. ГЛАВНЫЙ ЭКРАН (HERO SECTION) -->
+    <!-- 1. ГЛАВНЫЙ ЭКРАН (БЕЗ ПРЕЛОАДЕРА) -->
     <header class="hero">
-        <!-- Холст для анимации частиц (будет управляться через JS) -->
+        <!-- Холст для анимации частиц -->
         <canvas id="hero-canvas"></canvas>
         
         <div class="hero-inner">
@@ -72,6 +61,8 @@
             <div class="arrow-down"></div>
         </div>
     </header>
+
+    <!-- Далее идут остальные секции (About, Map, Pricing...) -->
 
     <!-- 3. ФИЛОСОФИЯ И МИССИЯ -->
     <section id="about" class="philosophy">
