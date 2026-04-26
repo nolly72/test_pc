@@ -1,11 +1,11 @@
 /**
- * НОЛЬ ПК — Официальный скрипт управления сайтом
- * Функционал: Частицы, Карта мест, Бронирование через EmailJS
+ * НОЛЬ ПК — Официальный скрипт управления
+ * Функционал: Неоновые частицы, Интерактивная карта, Бронирование
  */
 
 // 1. ИНИЦИАЛИЗАЦИЯ EMAILJS
 (function() {
-    // Используем твой Public Key
+    // Твой Public Key остается прежним
     emailjs.init("uMomqe3GHuHo1r5KO"); 
 })();
 
@@ -18,34 +18,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const slot = document.createElement('div');
             slot.className = 'pc-slot';
             
-            // Имитация занятых мест (каждое 5-е место занято)
-            if (i % 5 === 0) {
+            // Рандомная занятость для эффекта живого клуба
+            if (Math.random() < 0.25) {
                 slot.classList.add('busy');
             }
 
             slot.innerHTML = `<span>${i}</span>`;
             
-            // Логика выбора места
+            // Клик по компьютеру
             slot.addEventListener('click', () => {
                 if (!slot.classList.contains('busy')) {
-                    // Автоматический выбор тарифа в зависимости от номера ПК
+                    // Авто-выбор зоны в форме
                     const tariffSelect = document.querySelector('select[name="user_tariff"]');
                     if (tariffSelect) {
-                        // Предположим, ПК с 21 по 30 — это VIP
+                        // Места 21-30 по умолчанию VIP
                         tariffSelect.value = i > 20 ? 'VIP' : 'Standard';
                     }
                     
-                    // Плавный скролл к форме бронирования
+                    // Плавный переход к бронированию
                     document.getElementById('booking').scrollIntoView({ 
                         behavior: 'smooth' 
                     });
+                    
+                    // Подсветка выбранного места (опционально)
+                    console.log(`Место №${i} выбрано пользователем`);
                 }
             });
             pcGrid.appendChild(slot);
         }
     }
 
-    // --- 3. АНИМАЦИЯ ЧАСТИЦ (HERO CANVAS) ---
+    // --- 3. АНИМАЦИЯ НЕОНОВЫХ ЧАСТИЦ (HERO CANVAS) ---
     const canvas = document.getElementById('hero-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -63,19 +66,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.4;
-                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
+                
+                // Бесконечный цикл движения
                 if (this.x > canvas.width) this.x = 0;
                 if (this.x < 0) this.x = canvas.width;
                 if (this.y > canvas.height) this.y = 0;
                 if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = 'rgba(0, 242, 255, 0.4)';
+                // Цвет частиц под стать неоновому фону
+                ctx.fillStyle = 'rgba(0, 242, 255, 0.3)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -84,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function init() {
             particlesArray = [];
-            for (let i = 0; i < 100; i++) {
+            const count = window.innerWidth < 768 ? 40 : 100;
+            for (let i = 0; i < count; i++) {
                 particlesArray.push(new Particle());
             }
         }
@@ -102,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     }
 
-    // --- 4. ОБРАБОТКА ФОРМЫ (ОТПРАВКА НА EMAIL) ---
+    // --- 4. ОТПРАВКА ЗАЯВКИ (EMAILJS) ---
     const orderForm = document.getElementById('order-form');
     const submitBtn = document.getElementById('submit-btn');
 
@@ -110,23 +117,23 @@ document.addEventListener('DOMContentLoaded', () => {
         orderForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Визуальная индикация отправки
-            const originalText = submitBtn.innerText;
-            submitBtn.innerText = "ОТПРАВКА...";
+            // Блокируем кнопку
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = "ОБРАБОТКА...";
             submitBtn.disabled = true;
 
-            // Отправка формы через EmailJS
-            // 'service_ernscfc' и 'template_vakrk4p' — твои актуальные ID
+            // Отправляем данные
+            // Твои ID: service_ernscfc и template_vakrk4p
             emailjs.sendForm('service_ernscfc', 'template_vakrk4p', this)
                 .then(() => {
-                    alert('ОТЛИЧНО! ЗАЯВКА ПРИНЯТА. МЫ СКОРО СВЯЖЕМСЯ С ТОБОЙ.');
+                    alert('УСПЕХ! МЕСТО ЗАБРОНИРОВАНО. МЫ СКОРО ПЕРЕЗВОНИМ.');
                     orderForm.reset();
-                    submitBtn.innerText = originalText;
+                    submitBtn.innerText = originalBtnText;
                     submitBtn.disabled = false;
                 }, (error) => {
                     console.error('Ошибка:', error);
-                    alert('ОШИБКА ОТПРАВКИ. ПОПРОБУЙТЕ ЕЩЕ РАЗ.');
-                    submitBtn.innerText = originalText;
+                    alert('УПС! ЧТО-ТО ПОШЛО НЕ ТАК. ПОПРОБУЙТЕ ЕЩЕ РАЗ.');
+                    submitBtn.innerText = originalBtnText;
                     submitBtn.disabled = false;
                 });
         });
@@ -135,9 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 5. ИНИЦИАЛИЗАЦИЯ AOS ---
     if (typeof AOS !== 'undefined') {
         AOS.init({
-            duration: 1000,
+            duration: 800,
             once: true,
-            offset: 100
+            offset: 50
         });
     }
 });

@@ -1,269 +1,235 @@
-/* --- 1. ОСНОВНЫЕ НАСТРОЙКИ --- */
+/* --- 1. КИБЕР-ПЕРЕМЕННЫЕ --- */
 :root {
-    --primary: #00f2ff;       /* Электрический голубой */
-    --secondary: #7000ff;    /* Фиолетовый */
-    --bg: #000000;
-    --card-bg: rgba(255, 255, 255, 0.05);
+    --primary: #00f2ff;
+    --secondary: #7000ff;
+    --deep: #050505;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.1);
     --font-header: 'Syncopate', sans-serif;
     --font-main: 'Inter', sans-serif;
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-html {
-    scroll-behavior: smooth;
-    background-color: var(--bg);
-}
+html { scroll-behavior: smooth; background: var(--deep); }
 
 body {
-    background-color: var(--bg);
-    color: #ffffff;
+    background-color: var(--deep);
+    color: #fff;
     font-family: var(--font-main);
-    line-height: 1.4;
     overflow-x: hidden;
+    line-height: 1.2;
 }
 
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+/* --- 2. ПЕРЕЛИВАЮЩИЙСЯ ФОН --- */
+.neon-bg-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    background: linear-gradient(45deg, #000000, #050505, #0a001a, #000b1a);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
 }
 
-/* --- 2. ГЛАВНЫЙ ЭКРАН (HERO) --- */
-.hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    text-align: center;
-    padding: 40px 0;
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 #hero-canvas {
-    position: absolute;
+    position: fixed;
     top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 1;
+    z-index: 0;
+    opacity: 0.4;
     pointer-events: none;
 }
 
-.hero-inner {
-    position: relative;
-    z-index: 2;
-}
+.container { width: 90%; max-width: 1300px; margin: 0 auto; position: relative; z-index: 1; }
 
-.hero-title {
-    font-family: var(--font-header);
-    font-size: clamp(3rem, 15vw, 10rem);
+/* --- 3. ТИПОГРАФИКА --- */
+.heavy-title {
+    font-size: clamp(2.5rem, 8vw, 6.5rem);
     font-weight: 900;
+    text-transform: uppercase;
     line-height: 0.9;
     letter-spacing: -2px;
-    margin-bottom: 20px;
-    background: linear-gradient(180deg, #fff 40%, var(--primary) 100%);
+}
+
+.accent-text {
+    background: linear-gradient(180deg, #fff 30%, var(--primary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.hero-subtitle {
-    font-weight: 900;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
-    letter-spacing: 8px;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 40px;
+.glow-text { color: var(--primary); text-shadow: 0 0 20px rgba(0, 242, 255, 0.6); }
+
+.outline-text {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+    color: transparent;
 }
 
-/* КНОПКИ */
+/* --- 4. КНОПКИ (ИСПРАВЛЕНО) --- */
 .btn {
-    display: inline-block;
-    padding: 20px 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px 45px;
     font-weight: 900;
-    text-decoration: none;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    border-radius: 8px;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    letter-spacing: 3px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: var(--transition);
     cursor: pointer;
+    border: none;
 }
 
 .btn-main {
-    background: var(--primary);
+    background: #fff;
     color: #000;
-    box-shadow: 0 10px 30px rgba(0, 242, 255, 0.3);
 }
 
 .btn-main:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(0, 242, 255, 0.5);
+    background: var(--primary);
+    box-shadow: 0 0 40px var(--primary);
+    transform: translateY(-5px) scale(1.02);
 }
 
-/* --- 3. СЕКЦИИ --- */
-section {
-    padding: 100px 0;
-    position: relative;
+.btn-outline {
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(5px);
 }
 
-.section-title {
-    font-family: var(--font-header);
-    font-size: clamp(1.5rem, 5vw, 3rem);
-    text-align: center;
-    margin-bottom: 60px;
+.btn-outline:hover {
+    border-color: #fff;
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-3px);
 }
+
+.btn-small {
+    padding: 15px 30px;
+    font-size: 0.75rem;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    color: #fff;
+}
+
+.btn-small:hover { background: #fff; color: #000; }
+
+/* --- 5. СЕКЦИИ --- */
+.section { padding: 120px 0; }
+
+.hero { min-height: 100vh; display: flex; align-items: center; position: relative; }
+.hero-title { font-family: var(--font-header); font-size: clamp(3.5rem, 15vw, 13rem); font-weight: 900; margin-bottom: 20px; }
+.hero-subtitle { font-weight: 900; letter-spacing: 12px; opacity: 0.5; font-size: clamp(0.7rem, 2vw, 1rem); }
+.hero-btns { margin-top: 50px; display: flex; gap: 20px; flex-wrap: wrap; }
+
+.top-nav { display: flex; justify-content: space-between; align-items: center; width: 100%; position: absolute; top: 40px; }
+.logo { font-family: var(--font-header); font-weight: 900; font-size: 1.4rem; letter-spacing: 4px; }
+.nav-menu { display: flex; gap: 40px; }
+.nav-menu a { color: #fff; text-decoration: none; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.5; transition: 0.3s; }
+.nav-menu a:hover { opacity: 1; color: var(--primary); }
 
 /* КАРТА ЗАЛА */
-.map-wrapper {
-    background: #0a0a0a;
+.map-box {
+    background: var(--glass);
+    border: 1px solid var(--border);
     padding: 40px;
-    border-radius: 24px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 30px;
+    backdrop-filter: blur(15px);
 }
 
 .pc-grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 10px;
-    margin-bottom: 40px;
+    gap: 12px;
+    margin: 40px 0;
 }
 
 .pc-slot {
     aspect-ratio: 1;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    font-size: 0.8rem;
+    font-weight: 900;
     cursor: pointer;
-    transition: 0.2s;
+    transition: var(--transition);
 }
 
 .pc-slot:hover:not(.busy) {
     background: var(--primary);
     color: #000;
-    box-shadow: 0 0 20px var(--primary);
+    box-shadow: 0 0 30px var(--primary);
 }
 
-.pc-slot.busy {
-    background: #1a1a1a;
-    color: #333;
-    border: none;
-    cursor: not-allowed;
-}
+.pc-slot.busy { opacity: 0.15; cursor: not-allowed; }
 
-.ps-row {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.ps-slot {
-    padding: 20px 40px;
+.ps-zone { display: flex; gap: 20px; justify-content: center; }
+.ps-card {
+    flex: 1; max-width: 280px; padding: 30px;
     border: 2px solid var(--secondary);
-    border-radius: 12px;
-    font-weight: 900;
-    cursor: pointer;
-    transition: 0.3s;
+    border-radius: 20px; text-align: center;
+    transition: var(--transition);
 }
-
-.ps-slot:hover {
-    background: var(--secondary);
-    box-shadow: 0 0 30px var(--secondary);
-}
+.ps-card:hover { background: var(--secondary); box-shadow: 0 0 40px var(--secondary); }
+.ps-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
 
 /* ТАРИФЫ */
-.price-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+.price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+.p-card {
+    background: var(--glass);
+    padding: 50px 40px;
+    border-radius: 35px;
+    border: 1px solid var(--border);
+    transition: var(--transition);
 }
+.p-card.featured { border-color: var(--primary); transform: scale(1.03); background: rgba(0, 242, 255, 0.02); }
+.p-price { font-size: 3.5rem; font-weight: 900; margin: 25px 0; }
+.p-price small { font-size: 1rem; opacity: 0.4; }
+.p-info { list-style: none; margin-bottom: 40px; }
+.p-info li { padding: 12px 0; border-bottom: 1px solid var(--border); font-weight: 700; opacity: 0.6; }
 
-.price-card {
-    background: var(--card-bg);
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.05);
-    text-align: center;
-    transition: 0.3s;
+/* ФОРМА */
+.booking-flex { display: flex; gap: 80px; align-items: center; }
+.booking-form-box { flex: 1; background: #000; padding: 50px; border-radius: 30px; border: 1px solid var(--border); }
+.input-wrap { margin-bottom: 25px; }
+.input-wrap label { display: block; font-weight: 900; font-size: 0.7rem; opacity: 0.4; margin-bottom: 10px; letter-spacing: 2px; }
+.modern-form input, .modern-form select {
+    width: 100%; background: #111; border: 1px solid #222; padding: 20px;
+    border-radius: 12px; color: #fff; font-family: var(--font-main); font-weight: 800;
 }
+.modern-form input:focus { border-color: var(--primary); outline: none; }
 
-.price-card.featured {
-    border-color: var(--primary);
-    transform: translateY(-10px);
-}
-
-.price-card h3 {
-    font-family: var(--font-header);
-    margin-bottom: 20px;
-}
-
-.price-card .amount {
-    font-size: 3rem;
-    font-weight: 900;
-    display: block;
-    margin-bottom: 20px;
-}
-
-/* ФОРМА БРОНИРОВАНИЯ */
-.booking-form {
-    max-width: 500px;
-    margin: 0 auto;
-    background: #0a0a0a;
-    padding: 40px;
-    border-radius: 24px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 800;
-    font-size: 0.7rem;
-    margin-bottom: 8px;
-    opacity: 0.6;
-    text-transform: uppercase;
-}
-
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 15px;
-    background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 8px;
-    color: #fff;
-    font-family: var(--font-main);
-    font-weight: 700;
-}
-
-.form-group input:focus {
-    border-color: var(--primary);
-}
-
-/* --- 4. АДАПТИВНОСТЬ --- */
-@media (max-width: 1024px) {
+/* --- 6. АДАПТИВНОСТЬ --- */
+@media (max-width: 1100px) {
     .pc-grid { grid-template-columns: repeat(6, 1fr); }
+    .booking-flex { flex-direction: column; text-align: center; }
 }
 
 @media (max-width: 768px) {
-    .pc-grid { grid-template-columns: repeat(5, 1fr); }
-    .hero-title { font-size: 4rem; }
-    .hero-subtitle { letter-spacing: 4px; }
-    .section { padding: 60px 0; }
+    .hero { text-align: center; padding-top: 100px; }
+    .hero-btns { justify-content: center; }
+    .btn { width: 100%; }
+    .pc-grid { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .nav-menu { display: none; }
+    .price-grid { grid-template-columns: 1fr; }
+    .p-card { padding: 40px 20px; }
 }
 
 @media (max-width: 480px) {
-    .pc-grid { grid-template-columns: repeat(4, 1fr); gap: 5px; }
-    .map-wrapper { padding: 15px; }
-    .price-card { padding: 25px; }
+    .pc-grid { grid-template-columns: repeat(4, 1fr); }
+    .heavy-title { font-size: 2.8rem; }
 }
