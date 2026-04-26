@@ -1,279 +1,276 @@
-/* --- ОСНОВНЫЕ НАСТРОЙКИ --- */
+/* --- 1. КИБЕР-ПЕРЕМЕННЫЕ И ОСНОВА --- */
 :root {
-    --bg-black: #050505;
-    --neon-cyan: #00f2ff;
-    --neon-purple: #bc00ff;
-    --neon-white: #ffffff;
-    --glass: rgba(255, 255, 255, 0.05);
-    --border-color: rgba(0, 242, 255, 0.3);
-    --font-main: 'Montserrat', sans-serif;
-    --font-cyber: 'Orbitron', sans-serif;
+    --primary: #00f2ff;       /* Электрический голубой */
+    --accent: #7000ff;        /* Глубокий фиолетовый */
+    --bg-dark: #020202;       /* Базовый черный */
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.1);
+    --radius-lg: 45px;        /* Мягкий радиус для блоков */
+    --radius-btn: 100px;      /* Овальные кнопки */
+    --font-header: 'Syncopate', sans-serif;
+    --font-main: 'Inter', sans-serif;
+    --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html {
-    scroll-behavior: smooth; /* Плавный скролл */
+    scroll-behavior: smooth;
 }
 
+/* --- 2. АНИМИРОВАННЫЙ ЦВЕТНОЙ ФОН --- */
 body {
-    background-color: var(--bg-black);
+    background: linear-gradient(135deg, 
+        #020202 0%, 
+        #0a001a 25%, 
+        #000b1a 50%, 
+        #0a001a 75%, 
+        #020202 100%);
+    background-size: 400% 400%; /* Увеличиваем размер для плавного перелива */
+    animation: neonFlow 15s ease infinite; /* Запускаем анимацию */
     color: #fff;
     font-family: var(--font-main);
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.3;
 }
 
-/* --- ГЕЙМЕРСКИЙ ФОН --- */
-.scanline {
-    width: 100%;
-    height: 100px;
-    z-index: 9999;
-    background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.03), transparent);
-    opacity: 0.1;
+/* Эффект движения цветов на фоне */
+@keyframes neonFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Дополнительные парящие неоновые пятна для глубины */
+.bg-glow-1, .bg-glow-2 {
     position: fixed;
-    pointer-events: none;
-    animation: scanline 8s linear infinite;
-}
-
-@keyframes scanline {
-    0% { top: -100px; }
-    100% { top: 100%; }
-}
-
-.neon-bg-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(20, 20, 30, 1) 0%, rgba(5, 5, 5, 1) 80%);
+    width: 80vw;
+    height: 80vh;
+    border-radius: 50%;
+    filter: blur(120px);
     z-index: -1;
+    opacity: 0.2;
+    pointer-events: none;
+    animation: pulseGlow 10s ease-in-out infinite alternate;
 }
 
-/* --- ШАПКА (HEADER) --- */
-.main-header {
-    position: fixed;
-    top: 0; width: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    z-index: 1000;
-    padding: 15px 0;
+.bg-glow-1 { top: -20%; left: -20%; background: var(--primary); }
+.bg-glow-2 { bottom: -20%; right: -20%; background: var(--accent); animation-delay: -5s; }
+
+@keyframes pulseGlow {
+    0% { transform: scale(1) translate(0, 0); opacity: 0.15; }
+    100% { transform: scale(1.2) translate(10%, 10%); opacity: 0.25; }
+}
+
+/* --- 3. ПРЕМИАЛЬНАЯ ШАПКА --- */
+.header {
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(30px); /* Стеклянный эффект */
+    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .header-container {
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
 }
 
-.logo-block .glitch-logo {
-    font-family: var(--font-cyber);
-    font-size: 24px;
+.logo-main {
+    font-family: var(--font-header);
     font-weight: 900;
-    letter-spacing: 2px;
-    color: var(--neon-cyan);
-    text-shadow: 0 0 10px var(--neon-cyan);
+    font-size: 1.5rem;
+    letter-spacing: 5px;
+    color: var(--primary);
+    text-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
 }
 
-.nav-link {
-    color: #ccc;
-    text-decoration: none;
-    margin-left: 30px;
-    font-size: 13px;
-    font-weight: 600;
+.clock {
+    font-weight: 900;
+    color: var(--primary);
+    font-size: 1.1rem;
     letter-spacing: 1px;
-    transition: 0.3s;
+    text-shadow: 0 0 10px var(--primary);
 }
 
-.nav-link:hover, .nav-link.active {
-    color: var(--neon-cyan);
-    text-shadow: 0 0 8px var(--neon-cyan);
-}
-
-/* --- ГЛАВНАЯ СЕКЦИЯ (HERO) --- */
-.hero-section {
-    padding: 150px 0 100px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.cyber-box {
-    position: relative;
-    padding: 40px;
-    background: var(--glass);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-}
-
-.box-tag {
-    position: absolute;
-    top: -12px; left: 20px;
-    background: var(--bg-black);
-    padding: 0 10px;
-    font-family: var(--font-cyber);
-    color: var(--neon-cyan);
-    font-size: 12px;
-}
-
-.hero-title {
-    font-family: var(--font-cyber);
-    font-size: 3rem; /* Уменьшили размер */
-    margin-bottom: 20px;
-}
-
-.hero-title small {
-    display: block;
-    font-size: 1.2rem;
-    color: #888;
-}
-
-.text-glow-white { text-shadow: 0 0 15px #fff; }
-.text-glow-cyan { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
-
-/* --- КАРТОЧКИ СТАТИСТИКИ --- */
-.content-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 40px;
+/* --- 4. КНОПКИ (ОКРУГЛЫЕ И ЖИРНЫЕ) --- */
+.btn {
+    display: inline-flex;
     align-items: center;
-}
-
-.stat-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    margin-bottom: 15px;
-    text-align: center;
-    transition: 0.4s;
-}
-
-.stat-card:hover {
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
-    transform: translateY(-5px);
-}
-
-.stat-value {
-    font-family: var(--font-cyber);
-    font-size: 2.5rem;
-    color: var(--neon-cyan);
-}
-
-/* --- КНОПКИ --- */
-.btn-neon {
-    display: inline-block;
-    padding: 15px 30px;
-    background: var(--neon-cyan);
-    color: #000;
+    justify-content: center;
+    padding: 20px 45px;
+    border-radius: var(--radius-btn);
+    font-weight: 900;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
     text-decoration: none;
-    font-family: var(--font-cyber);
-    font-weight: bold;
-    border-radius: 4px;
-    box-shadow: 0 0 15px var(--neon-cyan);
-    transition: 0.3s;
-}
-
-.btn-neon:hover {
-    box-shadow: 0 0 30px var(--neon-cyan);
-    transform: scale(1.05);
-}
-
-/* --- КАРТА ЗАЛА --- */
-.interactive-map-container {
-    position: relative;
-    height: 400px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--border-color);
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.ui-corner {
-    position: absolute;
-    width: 20px; height: 20px;
-    border: 2px solid var(--neon-cyan);
-}
-
-.top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-.top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-.bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-.bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; }
-
-.pc-grid {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 15px;
-}
-
-.pc-node {
-    width: 40px; height: 40px;
-    border: 1px solid #444;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
+    transition: var(--transition);
     cursor: pointer;
+    border: none;
 }
 
-.pc-node.free { color: var(--neon-cyan); border-color: var(--neon-cyan); box-shadow: inset 0 0 5px var(--neon-cyan); }
-.pc-node.busy { color: #555; border-color: #222; cursor: not-allowed; }
-
-/* --- ФОРМА БРОНИРОВАНИЯ --- */
-.booking-wrapper {
-    background: var(--glass);
-    padding: 50px;
-    border: 1px solid var(--border-color);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
+.btn-primary {
+    background: #fff;
+    color: #000;
 }
 
-.input-group input, .input-group select {
-    width: 100%;
-    padding: 15px;
+.btn-primary:hover {
+    background: var(--primary);
+    box-shadow: 0 0 40px var(--primary);
+    transform: scale(1.05) translateY(-5px);
+}
+
+.btn-secondary {
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     color: #fff;
+    margin-left: 15px;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+}
+
+/* --- 5. ТАРИФЫ (МЯГКИЕ КАРТОЧКИ) --- */
+.pricing-section { padding: 100px 0; }
+
+.section-title {
+    font-family: var(--font-header);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.price-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    padding: 50px 40px;
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+    position: relative;
+    backdrop-filter: blur(20px);
+}
+
+.price-card:hover {
+    transform: translateY(-15px);
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.price-card.featured {
+    border-color: var(--primary);
+    background: rgba(0, 242, 255, 0.03);
+}
+
+.popular-label {
+    position: absolute;
+    top: 25px; right: 25px;
+    background: var(--primary);
+    color: #000;
+    font-weight: 900;
+    padding: 6px 16px;
+    border-radius: var(--radius-btn);
+    font-size: 0.65rem;
+}
+
+.price-name {
+    font-family: var(--font-header);
+    font-size: 1.4rem;
+    font-weight: 900;
     margin-bottom: 20px;
+}
+
+.price-value {
+    font-size: 4.5rem;
+    font-weight: 900;
+    margin-bottom: 30px;
+    letter-spacing: -2px;
+}
+
+.price-features li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    opacity: 0.6;
+    list-style: none;
+}
+
+/* --- 6. КАРТА ЗАЛА --- */
+.map-wrapper {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 50px;
+    backdrop-filter: blur(15px);
+}
+
+.pc-slot {
+    aspect-ratio: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    transition: var(--transition);
+}
+
+.pc-slot:hover:not(.busy) {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 30px var(--primary);
+}
+
+/* --- 7. ПРЕМИАЛЬНАЯ ФОРМА --- */
+.booking-card {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 60px;
+    backdrop-filter: blur(20px);
+}
+
+.modern-form input, .modern-form select {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid #333;
+    padding: 22px 30px;
+    border-radius: var(--radius-btn);
+    color: #fff;
+    font-family: var(--font-main);
+    font-weight: 700;
+    transition: var(--transition);
+    margin-bottom: 20px;
+}
+
+.modern-form input:focus {
+    border-color: var(--primary);
+    background: rgba(255,255,255,0.08);
     outline: none;
 }
 
-.input-group input:focus {
-    border-color: var(--neon-cyan);
-}
-
-.btn-submit {
-    width: 100%;
-    padding: 15px;
-    background: transparent;
-    border: 1px solid var(--neon-cyan);
-    color: var(--neon-cyan);
-    font-family: var(--font-cyber);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-submit:hover {
-    background: var(--neon-cyan);
-    color: #000;
-}
-
-/* --- АДАПТИВНОСТЬ --- */
+/* --- 8. АДАПТИВНОСТЬ --- */
 @media (max-width: 768px) {
-    .content-grid, .booking-wrapper {
-        grid-template-columns: 1fr;
-    }
-    .hero-title { font-size: 2rem; }
-    .nav-menu { display: none; } /* Для мобилок лучше сделать бургер-меню */
+    .price-value { font-size: 3.5rem; }
+    .btn { width: 100%; margin: 10px 0; }
+    .pc-grid { grid-template-columns: repeat(5, 1fr); }
 }
