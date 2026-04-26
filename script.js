@@ -11,13 +11,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    //<!-- НОВЫЙ КИБЕР-ПРЕЛОАДЕР -->//
-<div id="loader" class="loader">
-    <div class="loader-inner">
-        <div class="loader-logo">НОЛЬ ПК</div>
-        <div class="loader-line"></div>
-    </div>
-</div>
+
 
     // Имитация загрузки ресурсов
     const loadingInterval = setInterval(() => {
