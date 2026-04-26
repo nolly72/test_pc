@@ -5,6 +5,7 @@
 
 // 1. ИНИЦИАЛИЗАЦИЯ EMAILJS
 (function() {
+    // Твой Public Key
     emailjs.init("uMomqe3GHuHo1r5KO"); 
 })();
 
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const slot = document.createElement('div');
             slot.className = 'pc-slot';
             
-            // Рандомная занятость для красоты
+            // Рандомная занятость мест
             if (Math.random() < 0.2) slot.classList.add('busy');
             
             slot.innerHTML = `<span>${i}</span>`;
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 4. ОБРАБОТКА ФОРМЫ БРОНИРОВАНИЯ ---
     const bookingForm = document.getElementById('contact-form');
-    // Находим кнопку внутри формы, чтобы не зависеть от ID
+    // Поиск кнопки отправки внутри формы
     const submitBtn = bookingForm ? bookingForm.querySelector('button[type="submit"]') : null;
 
     if (bookingForm && submitBtn) {
@@ -110,16 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.style.opacity = '0.7';
             submitBtn.disabled = true;
 
+            // Твои ID Service и Template
             emailjs.sendForm('service_ernscfc', 'template_vakrk4p', this)
                 .then(() => {
-                    alert('ОТЛИЧНО! Твоя заявка в НОЛЬ ПК принята. Ожидай звонка.');
+                    alert('УСПЕШНО! Заявка отправлена.');
                     bookingForm.reset();
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.style.opacity = '1';
                     submitBtn.disabled = false;
                 }, (error) => {
                     console.error('Ошибка:', error);
-                    alert('ЧТО-ТО ПОШЛО НЕ ТАК. Попробуй еще раз или позвони нам.');
+                    alert('Ошибка при отправке. Попробуйте позже.');
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.style.opacity = '1';
                     submitBtn.disabled = false;
@@ -127,8 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 5. ИНИЦИАЛИЗАЦИЯ AOS ---
+    // --- 5. ИНИЦИАЛИЗАЦИЯ AOS (Анимации при скролле) ---
     if (typeof AOS !== 'undefined') {
-        AOS.init({ duration: 1000, once: true, offset: 100 });
+        AOS.init({ 
+            duration: 1000, 
+            once: true, 
+            offset: 100 
+        });
     }
 });
