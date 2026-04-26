@@ -1,71 +1,134 @@
+/**
+ * НОЛЬ ПК — Официальный скрипт управления интерфейсом
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. ЦИФРОВЫЕ ЧАСЫ (Обновление каждую секунду)
+
+    // 1. ИНИЦИАЛИЗАЦИЯ EMAILJS (Твой Public Key)
+    emailjs.init("uMomqe3GHuHo1r5KO");
+
+    // 2. ЖИВЫЕ ЦИФРОВЫЕ ЧАСЫ (Точно как на скриншоте)
     const updateClock = () => {
         const clockElement = document.getElementById('digital-clock');
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getHours()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        
         if (clockElement) {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
             clockElement.textContent = `${hours}:${minutes}:${seconds}`;
         }
     };
     setInterval(updateClock, 1000);
     updateClock();
 
-    // 2. ПЛАВНЫЙ СКРОЛЛ ДЛЯ НАВИГАЦИИ
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
+    // 3. ГЕНЕРАЦИЯ КАРТЫ ЗАЛА (30 ПК)
+    const pcGrid = document.getElementById('pc-grid');
+    if (pcGrid) {
+        for (let i = 1; i <= 30; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'pc-slot';
             
-            if (targetSection) {
-                // Убираем класс active у всех и добавляем текущей
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
+            // Рандомная занятость для красоты
+            if (Math.random() < 0.2) slot.classList.add('busy');
+            
+            slot.innerHTML = `<span>${i}</span>`;
+            
+            // Логика выбора места
+            slot.addEventListener('click', () => {
+                if (!slot.classList.contains('busy')) {
+                    // Прокрутка к форме
+                    document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Авто-выбор зоны
+                    const zoneSelect = document.querySelector('select[name="user_tariff"]');
+                    if (zoneSelect) {
+                        zoneSelect.value = i > 25 ? 'VIP' : 'Standard';
+                    }
+                }
+            });
+            pcGrid.appendChild(slot);
+        }
+    }
 
-                window.scrollTo({
-                    top: targetSection.offsetTop - 80, // отступ под шапку
-                    behavior: 'smooth'
+    // 4. ОБРАБОТКА ФОРМЫ БРОНИРОВАНИЯ
+    const orderForm = document.getElementById('order-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (orderForm) {
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Индикация загрузки
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = "ОТПРАВЛЯЕМ...";
+            submitBtn.disabled = true;
+
+            // Отправка через EmailJS
+            // Твои ID: service_ernscfc и template_vakrk4p
+            emailjs.sendForm('service_ernscfc', 'template_vakrk4p', this)
+                .then(() => {
+                    alert('УСПЕШНО! МЕСТО ЗАБРОНИРОВАНО. МЫ СКОРО ПЕРЕЗВОНИМ.');
+                    orderForm.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, (error) => {
+                    console.error('Ошибка:', error);
+                    alert('ОШИБКА ОТПРАВКИ. ПОПРОБУЙТЕ ЕЩЕ РАЗ.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
                 });
+        });
+    }
+
+    // 5. АНИМАЦИЯ ЧАСТИЦ НА ФОНЕ (HERO CANVAS)
+    const canvas = document.getElementById('hero-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        const resize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
             }
-        });
-    });
-
-    // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ БЛОКОВ ПРИ СКРОЛЛЕ
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
             }
-        });
-    }, observerOptions);
+            draw() {
+                ctx.fillStyle = 'rgba(0, 242, 255, 0.2)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
 
-    document.querySelectorAll('.cyber-box, .price-card, .stat-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'all 0.8s ease-out';
-        observer.observe(el);
-    });
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
 
-    // 4. ИМИТАЦИЯ ВЫБОРА МЕСТА НА КАРТЕ
-    const nodes = document.querySelectorAll('.pc-node.free');
-    nodes.forEach(node => {
-        node.addEventListener('click', () => {
-            // Снимаем выделение с других
-            nodes.forEach(n => n.style.backgroundColor = 'transparent');
-            // Выделяем текущее
-            node.style.backgroundColor = 'rgba(0, 242, 255, 0.3)';
-            console.log(`Выбрано место: ${node.textContent}`);
-        });
-    });
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        };
+        animate();
+    }
+
+    // 6. ИНИЦИАЛИЗАЦИЯ АНИМАЦИЙ AOS
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 1000, once: true });
+    }
 });
